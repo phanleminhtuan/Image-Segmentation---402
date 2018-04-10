@@ -3,10 +3,10 @@
 [<EntryPoint>]
 let main argv =
     // load a Tiff image
-    let image = TiffModule.loadImage "D:/SegmentationSkeleton/TestImages/L15-3662E-1902N-Q4.tif"
+    let image = TiffModule.loadImage "D:/SegmentationSkeleton/TestImages/L15-3709E-1833N-Q4.tif"
 
     // testing using sub-image of size 32x32 pixels
-    let N =5
+    let N =3
 
     // increasing this threshold will result in more segment merging and therefore fewer final segments
     let threshold = 800.0

@@ -14,19 +14,12 @@ let  rec findListCoordinates (segment:Segment) =
 let findNeigbourCoords ((x,y):Coordinate) =
     [(x+1,y);(x-1,y);(x,y+1);(x,y-1)]
 
-
-
-
 // find the list of all neighbour coordinates of the coordinates of a given segment
 let findListOfNeighbourCoordinates (segment:Segment)=
     segment |> findListCoordinates |> List.map findNeigbourCoords |> List.concat
 //filter the list of of neighbour coordinates to match the top corner only
 let coordinatesisFilter list n =
-    list |> List.filter (fun (x,y) -> (x < ( pown 2 n )) && (y>=0 ) && (x  >= 0 ) && ( y < ( pown 2 n  ) ) ) 
-
-
-
-
+    list |> List.filter (fun (x,y) -> x <=  ( pown 2 n )/2 ) |> List.filter (fun(x,y) -> y>=0 )|> List.filter (fun(x,y) -> x  >= 0 )|> List.filter (fun(x,y) -> y <= ( pown 2 n  )/2 ) 
 // find the minimun value of a set. Return 0 if the set is empty ( cannot use minElement for empty set , mergecost cannot be negative)
 let findBestMergeCost set =
     if (Set.isEmpty set) then 0.0 else Set.minElement set
@@ -55,7 +48,6 @@ let createPixelMap (image:TiffModule.Image) : (Coordinate -> Segment) =
 let createNeighboursFunction (pixelMap:Coordinate->Segment) (N:int) : (Segmentation -> Segment -> Set<Segment>) =
     let neighbours (segmentation :Segmentation) (segment:Segment) =
         //find the neighbours of the current segment
-
         let listOfNeigbourCoords =  findListOfNeighbourCoordinates segment
         // filter the list of neighbours coordinates to match the top-left corner
         let filterListOfNeighbourCoords = coordinatesisFilter listOfNeigbourCoords N 
@@ -82,7 +74,7 @@ let createBestNeighbourFunction (neighbours:Segmentation->Segment->Set<Segment>)
     let bestNeighbours (segmentation:Segmentation) (segment:Segment) =
         let setOfNeighbours = neighbours segmentation segment
         let bestMergeCost = setOfNeighbours|> Set.map (fun seg -> (mergeCost seg segment) ) |> findBestMergeCost
-        let filterSetOfNeighbours = setOfNeighbours |> Set.filter (fun x -> ( (mergeCost x segment) <= threshold ) && ( (mergeCost x segment) = bestMergeCost ) )
+        let filterSetOfNeighbours = setOfNeighbours |> Set.filter (fun x -> ( (mergeCost x segment) = bestMergeCost ) )|> Set.filter (fun x -> ( (mergeCost x segment) <= threshold ) ) 
         filterSetOfNeighbours
     bestNeighbours
       
@@ -101,7 +93,7 @@ let createTryGrowOneSegmentFunction (bestNeighbours:Segmentation->Segment->Set<S
         let currentSegment = pixelMap coord
         let rootOfCurrentSegment = findRoot segmentation currentSegment
         let bestNeighbourOfSegmentSet = bestNeighbours segmentation rootOfCurrentSegment
-        let mutuallyBestNeighbours = bestNeighbourOfSegmentSet |> Set.filter (fun seg -> (Set.contains rootOfCurrentSegment (bestNeighbours segmentation (findRoot segmentation seg)) ) )
+        let mutuallyBestNeighbours = bestNeighbourOfSegmentSet |> Set.filter (fun seg -> (Set.contains rootOfCurrentSegment (bestNeighbours segmentation seg) ) )
         if (Set.isEmpty mutuallyBestNeighbours) then
              if (Set.isEmpty bestNeighbourOfSegmentSet) then
                 segmentation
@@ -134,7 +126,15 @@ let createTryGrowAllCoordinatesFunction (tryGrowPixel:Segmentation->Coordinate->
         else
             let finalSegmentation = Seq.fold (fun seg -> tryGrowPixel seg) segmentation seqOfGrowth
             finalSegmentation
-     
+       // let listSeqOfGrowth = Seq.toList seqOfGrowth
+      //  let rec findfinalSegmentation (list :Coordinate list) (segmentation1 : Segmentation) =
+       //     match list with 
+        //    |[] -> segmentation1
+        //    | head :: tail -> findfinalSegmentation tail (tryGrowPixel segmentation1 head)
+       // let finalSegmentation = findfinalSegmentation listSeqOfGrowth segmentation
+       // finalSegmentation
+        //
+        
     tryGrowAllCoordinates
    
     // Fixme: add implementation here
@@ -168,7 +168,6 @@ let segment (image:TiffModule.Image) (N: int) (threshold:float)  : (Coordinate -
   
         //get the final segmentation, grow from an emty segmenetation
         let finalSegmentation = growUntilNoChange Map.empty
-    
         // retrieve the inital segment 
         let currentSegment = pixelMap coord
         
