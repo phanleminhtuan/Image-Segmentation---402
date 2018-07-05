@@ -7,10 +7,10 @@
 
   <ItemGroup>
     <Compile Include="DitherModule.fs" />
-    <Compile Include="Program.fs" />
-    <Compile Include="SegmentationModule.fs" />
-    <Compile Include="SegmentModule.fs" />
     <Compile Include="TiffModule.fs" />
+    <Compile Include="SegmentModule.fs" />
+    <Compile Include="SegmentationModule.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -23,6 +23,7 @@ let oddBits v =
 let evenBits v = 
     List.fold (extractBit v) 0 [0 .. 2 .. maxBit]
 
+
 // returns the coordinates of all pixels in the image in special dither order
 let coordinates N =
     let width = 1 <<< N
@@ -34,4 +35,6 @@ let coordinates N =
               let y = x ^^^ evenBits r
               yield x, y
         }
+let t= coordinates 2
+Seq.toList t
 

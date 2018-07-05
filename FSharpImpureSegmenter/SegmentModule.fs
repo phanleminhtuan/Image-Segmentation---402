@@ -41,10 +41,10 @@ let  rexmoveFirstItemList list =
     match list with 
     |[] -> []
     |head :: tail -> tail
-// remove all first item in in the inner list of a list  of list
+// remove all first item in a list  of list
 let removeFirstItemListofList list =
     list |> List.map rexmoveFirstItemList
-// get all the first columns of the inner list of the list of list, and then get all the second columns,
+// get all the first columns of a list of list, and then get all the second columns,...
 let rec extractFirstColumn (list : 'T list list) =
     if list.[0] = [] then [] 
     else [getFirstColumnItems list] @  (list|>removeFirstItemListofList|>extractFirstColumn)
@@ -89,20 +89,18 @@ let rec countPixel segment :float =
 let mergeCost segment1 segment2 : float = 
     let combinedSegment = Parent(segment1,segment2)
     //standard dev of the segment1
-    let c1 = segment1|>stddev|> sumList
+    let sumStddev1 = segment1|>stddev|> sumList
      //standard dev of the segment2
-    let c2 = segment2|>stddev|> sumList
+    let sumStddev2 = segment2|>stddev|> sumList
      //standard dev of the combinedSegment
-    let cc = combinedSegment|>stddev|> sumList
+    let sumCombinedStddev = combinedSegment|>stddev|> sumList
     //find the number of pixels in the each segment
     let npixels1 = countPixel segment1
     let npixels2 = countPixel segment2
     let ncombined = countPixel combinedSegment
     //calculate the merge cost
-    let cost = (cc * ncombined) - (c1 * npixels1) - (c2 * npixels2)
+    let cost = (sumCombinedStddev * ncombined) - (sumStddev1 * npixels1) - (sumStddev2 * npixels2)
     cost
-    
-
 
    
 

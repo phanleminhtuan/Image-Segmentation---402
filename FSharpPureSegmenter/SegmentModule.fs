@@ -88,16 +88,19 @@ let rec countPixel segment :float =
 // weighted by their respective sizes and summed over all colour bands
 let mergeCost segment1 segment2 : float = 
     let combinedSegment = Parent(segment1,segment2)
-    let c1 = segment1|>stddev|> sumList
-    let c2 = segment2|>stddev|> sumList
-    let cc = combinedSegment|>stddev|> sumList
+    //standard dev of the segment1
+    let sumStddev1 = segment1|>stddev|> sumList
+     //standard dev of the segment2
+    let sumStddev2 = segment2|>stddev|> sumList
+     //standard dev of the combinedSegment
+    let sumCombinedStddev = combinedSegment|>stddev|> sumList
+    //find the number of pixels in the each segment
     let npixels1 = countPixel segment1
     let npixels2 = countPixel segment2
     let ncombined = countPixel combinedSegment
-    let cost = (cc * ncombined) - (c1 * npixels1) - (c2 * npixels2)
+    //calculate the merge cost
+    let cost = (sumCombinedStddev * ncombined) - (sumStddev1 * npixels1) - (sumStddev2 * npixels2)
     cost
-    
-
 
    
 

@@ -11,6 +11,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpImpureSegmenter", "FS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpSegmenter", "CSharpSegmenter\CSharpSegmenter.csproj", "{100E445D-2CEB-46C3-A054-A7B82ABDE274}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Testing", "Testting\Testing.fsproj", "{AC0AFB4A-B44D-439A-9286-4E37BD7A0B77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,11 +32,21 @@ Global
 		{100E445D-2CEB-46C3-A054-A7B82ABDE274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{100E445D-2CEB-46C3-A054-A7B82ABDE274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{100E445D-2CEB-46C3-A054-A7B82ABDE274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0AFB4A-B44D-439A-9286-4E37BD7A0B77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0AFB4A-B44D-439A-9286-4E37BD7A0B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0AFB4A-B44D-439A-9286-4E37BD7A0B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0AFB4A-B44D-439A-9286-4E37BD7A0B77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {584567AD-44D3-4B97-AE99-6A99379DC079}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
